@@ -1,0 +1,8 @@
+{
+  "name": "deadline-note",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "대학생을 위한 개인 과제와 팀 프로젝트 마감 관리 앱",
+  "scripts": { "test": "TZ=Asia/Seoul node --test tests/*.test.mjs" }
+}

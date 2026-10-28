@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#146b56">
+  <meta name="description" content="흩어진 과제와 팀플 마감을 한곳에. 과제 등록, 진행 상태, 마감 알림 표시, 검색과 백업을 지원하는 개인용 플래너입니다.">
+  <title>마감노트 · 과제와 팀플을 한눈에</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">본문으로 이동</a>
+  <aside class="sidebar">
+    <a class="brand" href="./" aria-label="마감노트 홈"><span class="brand-icon" aria-hidden="true">✓</span><span>마감노트<span class="brand-sub">A LITTLE PLAN, MORE SPACE.</span></span></a>
+    <div class="workspace"><span class="workspace-avatar">나</span><span><strong>나의 워크스페이스</strong><small>이번 학기도, 차근차근</small></span><span class="workspace-dot" aria-hidden="true"></span></div>
+    <p class="nav-label">MY PLANNER</p>
+    <nav aria-label="과제 보기">
+      <button class="nav-item active" data-view="all" aria-current="page"><span class="nav-icon" aria-hidden="true">▦</span>전체 과제<span class="nav-count" id="nav-all">0</span></button>
+      <button class="nav-item" data-view="urgent"><span class="nav-icon" aria-hidden="true">◷</span>마감 임박<span class="nav-count" id="nav-urgent">0</span></button>
+      <button class="nav-item" data-view="doing"><span class="nav-icon" aria-hidden="true">◐</span>진행 중<span class="nav-count" id="nav-doing">0</span></button>
+      <button class="nav-item" data-view="done"><span class="nav-icon" aria-hidden="true">☑</span>완료한 과제<span class="nav-count" id="nav-done">0</span></button>
+    </nav>
+    <div class="sidebar-tip"><span class="tip-drawing" aria-hidden="true">✳</span><strong>한 번에 하나씩.</strong><p>작은 체크 하나가<br>가벼운 내일을 만들어요.</p></div>
+    <div class="storage-note"><span class="storage-dot" aria-hidden="true"></span><span>이 기기에 자동 저장<small>다른 기기에서는 백업을 불러오세요.</small></span><button id="help-btn" class="icon-btn" aria-label="저장 방식과 사용 안내">?</button></div>
+  </aside>
+
+  <main id="main" class="main">
+    <header class="topbar"><div class="breadcrumb">MY WORKSPACE <span>/</span> <strong>PLANNER</strong></div><span id="today-label" class="today-label"></span></header>
+    <div class="page-heading"><div><p class="eyebrow">MAKE ROOM FOR WHAT MATTERS</p><h1 id="page-title">나의 과제</h1><p class="page-description" id="page-description">머릿속 할 일을 꺼내고, 오늘에 집중해요.</p></div><button class="btn primary" id="add-btn"><span aria-hidden="true">＋</span> 과제 추가</button></div>
+    <div id="storage-error" class="storage-error" role="alert" hidden><div><strong>저장된 기록을 읽을 수 없습니다.</strong><p id="storage-error-message"></p></div><div class="storage-error-actions"><button class="btn small" id="raw-backup-btn">원본 백업 저장</button><button class="btn small" id="reset-btn">기록 초기화</button></div></div>
+
+    <section class="focus-card" aria-labelledby="focus-title"><div class="focus-content"><span class="focus-label"><span aria-hidden="true">✦</span> TODAY'S FOCUS</span><h2 id="focus-title">오늘의 여유는, 작은 계획에서.</h2><p id="focus-text">첫 과제를 등록하고 나만의 플래너를 시작해 보세요.</p><button class="focus-link" id="focus-btn">마감 임박 과제 보기 <span aria-hidden="true">↗</span></button></div><div class="focus-art" aria-hidden="true"><div class="art-star star-one">✳</div><div class="art-note"><span class="note-tab"></span><span class="art-line"></span><span class="art-task"><i>✓</i><b></b></span><span class="art-task"><i>✓</i><b></b></span><span class="art-task"><i></i><b></b></span></div><div class="art-check">✓</div><div class="art-star star-two">✦</div></div></section>
+
+    <section class="stats" aria-label="과제 현황"><article class="stat-card"><div class="stat-top"><span>남은 과제</span><span class="stat-icon mint" aria-hidden="true">▤</span></div><div class="stat-bottom"><strong id="stat-remaining">0</strong><span>개</span><small>하나씩 끝내봐요</small></div></article><article class="stat-card"><div class="stat-top"><span>오늘 마감</span><span class="stat-icon orange" aria-hidden="true">◷</span></div><div class="stat-bottom"><strong id="stat-today">0</strong><span>개</span><small id="stat-overdue">지연된 과제 0개</small></div></article><article class="stat-card progress-card"><div class="stat-top"><span>전체 완료율</span><span class="progress-count" id="progress-count">0 / 0</span></div><div class="stat-bottom"><strong id="stat-progress">0</strong><span>%</span><div class="progress-track" role="progressbar" aria-label="전체 과제 완료율" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress-bar"></div></div></div></article></section>
+
+    <section class="task-panel" aria-labelledby="list-heading"><div class="panel-heading"><div><h2 id="list-heading">과제 모아보기 <span id="result-count">0</span></h2><p id="list-subtitle">과제의 제목을 누르면 내용을 수정할 수 있어요.</p></div><div class="backup-actions"><button id="export-btn" class="text-btn"><span aria-hidden="true">↓</span> 백업 저장</button><button id="import-btn" class="text-btn"><span aria-hidden="true">↑</span> 불러오기</button><input id="import-file" type="file" accept=".json,application/json" hidden></div></div>
+      <div class="filters"><label class="search-box"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 5 5" stroke="currentColor" stroke-width="1.8"/></svg><input type="search" id="search" placeholder="과제명, 수업명, 메모 검색" aria-label="과제명, 수업명, 메모 검색" maxlength="100"></label><label class="sr-only" for="course-filter">수업 필터</label><select id="course-filter"><option value="">모든 수업</option></select><label class="sr-only" for="type-filter">분류 필터</label><select id="type-filter"><option value="">모든 분류</option><option>개인 과제</option><option>팀 프로젝트</option><option>시험 준비</option><option>기타</option></select><label class="sr-only" for="sort">정렬 방식</label><select id="sort"><option value="due">마감 빠른 순</option><option value="priority">우선순위 높은 순</option><option value="recent">최근 추가순</option></select></div>
+      <div class="list-columns" aria-hidden="true"><span>과제</span><span>마감일</span><span>진행 상태</span><span></span></div>
+      <div id="task-list" class="task-list" aria-live="polite" aria-label="과제 목록"></div>
+      <div id="empty-state" class="empty-state"><div class="empty-icon" aria-hidden="true">✓</div><h3 id="empty-title">계획을 적을 작은 공간이 생겼어요.</h3><p id="empty-text">과제를 등록하면 마감과 진행 상황을 한눈에 볼 수 있어요.</p><div class="empty-actions"><button class="btn primary" id="empty-add-btn">첫 과제 등록하기</button><button class="btn secondary" id="demo-btn">예시 과제로 둘러보기</button><button class="btn secondary" id="clear-filters-btn" hidden>필터 초기화</button></div></div>
+      <div class="list-footer"><span><span class="mini-dot" aria-hidden="true"></span>작은 완료를 쌓아가는 중</span><button class="text-btn" id="remove-demo-btn" hidden>예시 과제만 삭제</button><span id="saved-label">브라우저에 저장됩니다</span></div>
+    </section>
+    <footer class="page-footer"><span>마감노트</span><button id="footer-help-btn" class="text-btn">저장 방식과 사용 안내</button><span>계획은 가볍게, 하루는 여유롭게.</span></footer>
+  </main>
+
+  <dialog id="task-dialog" class="dialog"><form id="task-form"><div class="dialog-heading"><div><p class="eyebrow">YOUR NEXT SMALL STEP</p><h2 id="dialog-title">새 과제 등록</h2></div><button type="button" class="icon-btn close-btn" id="close-dialog" aria-label="과제 창 닫기">×</button></div><input type="hidden" id="task-id"><label class="form-label" for="task-title">과제명 <span>*</span></label><input id="task-title" required maxlength="100" placeholder="어떤 일을 해야 하나요?" autocomplete="off"><label class="form-label" for="task-course">수업명</label><input id="task-course" maxlength="40" placeholder="예: 마케팅" list="course-options" autocomplete="off"><datalist id="course-options"></datalist><div class="form-grid"><div><label class="form-label" for="task-date">마감 날짜 <span>*</span></label><input type="date" id="task-date" required min="2000-01-01" max="2100-12-31"></div><div><label class="form-label" for="task-time">마감 시간 <span>*</span></label><input type="time" id="task-time" required value="23:59"></div></div><div class="form-grid"><div><label class="form-label" for="task-type">분류</label><select id="task-type"><option>개인 과제</option><option>팀 프로젝트</option><option>시험 준비</option><option>기타</option></select></div><div><label class="form-label" for="task-priority">우선순위</label><select id="task-priority"><option value="normal">보통</option><option value="high">높음</option><option value="low">낮음</option></select></div></div><label class="form-label" for="task-status">진행 상태</label><select id="task-status"><option value="todo">시작 전</option><option value="doing">진행 중</option><option value="done">완료</option></select><label class="form-label" for="task-memo">메모</label><textarea id="task-memo" rows="3" maxlength="1000" placeholder="해야 할 일, 준비물, 팀원과 확인할 내용을 적어보세요."></textarea><p class="form-error" id="form-error" role="alert" hidden></p><div class="dialog-footer"><button type="button" class="btn secondary" id="cancel-dialog">취소</button><button type="submit" class="btn primary" id="save-task-btn">과제 저장</button></div></form></dialog>
+
+  <dialog id="confirm-dialog" class="dialog confirm-dialog"><h2 id="confirm-title"></h2><p id="confirm-message"></p><div class="dialog-footer"><button class="btn secondary" id="confirm-cancel">취소</button><button class="btn primary" id="confirm-ok">확인</button></div></dialog>
+  <dialog id="help-dialog" class="dialog help-dialog"><div class="dialog-heading"><h2>마감노트 사용 안내</h2><button class="icon-btn close-btn" id="close-help" aria-label="사용 안내 닫기">×</button></div><p><strong>1. 과제를 등록해요.</strong><br>제목, 수업명, 마감 날짜와 시간을 입력하세요. 과제 제목을 누르면 수정할 수 있어요.</p><p><strong>2. 하나씩 완료해요.</strong><br>왼쪽 체크 버튼으로 완료하거나 되돌릴 수 있어요. 상태 메뉴에서는 ‘진행 중’도 선택할 수 있어요.</p><p><strong>3. 마감을 확인해요.</strong><br>‘마감 임박’은 완료하지 않은 과제 중 지연된 과제와 7일 이내 마감 과제를 보여줘요. 화면의 마감 표시는 앱을 열어 둔 동안 갱신되며, 별도 푸시 알림은 보내지 않아요.</p><p><strong>4. 내 기록을 보관해요.</strong><br>기록은 현재 기기의 이 브라우저에만 저장돼요. 브라우저 데이터를 지우면 사라질 수 있으니 ‘백업 저장’으로 보관해 주세요. 다른 기기에서는 백업 파일을 불러올 수 있어요. 백업 불러오기는 현재 기록을 교체해요.</p><p class="help-note">계정 가입이나 서버 전송 없이 사용할 수 있는 개인용 플래너입니다. 예시 과제는 가상 데이터예요.</p></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
